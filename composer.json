@@ -1,6 +1,5 @@
 {
     "name": "adrianmejias/veil",
-    "type": "project",
     "description": "Autoloader for custom class instances.",
     "keywords": [
         "php",
