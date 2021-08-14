@@ -1,11 +1,13 @@
 {
     "name": "adrianmejias/veil",
+    "type": "project",
     "description": "Autoloader for custom class instances.",
     "keywords": [
         "php",
-        "autoloader",
+        "autoload",
         "class",
-        "instance"
+        "instance",
+        "custom"
     ],
     "license": "BSD-3",
     "homepage": "https://github.com/adrianmejias/veil",
@@ -35,11 +37,6 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.x-dev"
         }
     },
     "config": {
