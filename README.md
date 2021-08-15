@@ -36,11 +36,11 @@ Hello, world!
 
 ## Todo
 
-- [ ] Add to packagist repo
+- [x] Add to packagist repo
 - [x] Add unit tests
-- [ ] Add documentation for open source contributations
-- [ ] Add GitHub Action for unit tests
-- [ ] Add requirements to README.md
+- [x] Add documentation for open source contributations
+- [x] Add GitHub Action for unit tests
+- [ ] Add more documentation to README.md
 - [ ] Add API listing to README.md
 
 ## Contributing
