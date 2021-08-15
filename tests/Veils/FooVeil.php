@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Veils;
+namespace AdrianMejias\Tests\Veils;
 
 use AdrianMejias\Veil\VeilAbstract;
 

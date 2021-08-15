@@ -3,10 +3,8 @@ name: "Bug report"
 about: 'Report a general library issue.'
 ---
 
-- Testbench Version: #.#.#
-- Laravel Version: #.#.#
+- Veil Version: #.#.#
 - PHP Version: #.#.#
-- Database Driver & Version:
 
 ### Description:
 
