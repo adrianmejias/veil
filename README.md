@@ -4,11 +4,11 @@
 
 Autoloader for custom class instances.
 
-# Installation
+## Installation
 
 `composer require adrianmejias/veil`
 
-# Basic Usage
+## Basic Usage
 
 ```php
 <?php
@@ -34,7 +34,7 @@ Expected Output:
 Hello, world!
 ```
 
-# Todo
+## Todo
 
 - [ ] Add to packagist repo
 - [x] Add unit tests
