@@ -6,7 +6,7 @@ namespace AdrianMejias\Veil;
 
 use TypeError;
 
-final class Veil
+class Veil
 {
     /**
      * Array of class aliases.

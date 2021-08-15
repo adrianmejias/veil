@@ -6,7 +6,7 @@ namespace Tests\Veils;
 
 use AdrianMejias\Veil\VeilAbstract;
 
-final class FooVeil extends VeilAbstract
+class FooVeil extends VeilAbstract
 {
     /** @inheritDoc */
     public static function getVeilAccessor()
