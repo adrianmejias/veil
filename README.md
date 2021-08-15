@@ -1,6 +1,6 @@
 # Veil
 
-[![PHP Unit Tests](https://github.com/adrianmejias/veil/actions/workflows/tests.yml/badge.svg)](https://github.com/adrianmejias/veil/actions/workflows/tests.yml) ![Downloads](https://img.shields.io/packagist/dt/adrianmejias/veil) ![Packagist](https://img.shields.io/packagist/v/adrianmejias/veil) ![License](https://img.shields.io/packagist/l/adrianmejias/veil) ![Liberapay](https://img.shields.io/liberapay/patrons/adrianmejias.svg?logo=liberapay)
+[![tests](https://github.com/adrianmejias/veil/actions/workflows/tests.yml/badge.svg)](https://github.com/adrianmejias/veil/actions/workflows/tests.yml) ![Downloads](https://img.shields.io/packagist/dt/adrianmejias/veil) ![Packagist](https://img.shields.io/packagist/v/adrianmejias/veil) ![License](https://img.shields.io/packagist/l/adrianmejias/veil) ![Liberapay](https://img.shields.io/liberapay/patrons/adrianmejias.svg?logo=liberapay)
 
 Autoloader for custom class instances.
 
