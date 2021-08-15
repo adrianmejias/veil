@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace AdrianMejias\Tests;
 
 use PHPUnit\Framework\TestCase;
 use AdrianMejias\Veil\Veil;
-use Tests\Veils\FooVeil;
+use AdrianMejias\Tests\Veils\FooVeil;
 use Mockery;
 
 class VeilsTest extends TestCase
@@ -62,7 +62,7 @@ class VeilsTest extends TestCase
         $veil->add(['Foo' => FooVeil::class]);
         $mock->add(['Foo' => FooVeil::class]);
 
-        $this->assertSame('hi', \Foo::bar());
+        $this->assertSame(\Foo::bar(), FooVeil::getVeilInstance()->bar());
 
         $this->assertSame($veil->registered(), $mock->registered());
     }
@@ -83,7 +83,7 @@ class VeilsTest extends TestCase
         $veil->add('Foo', FooVeil::class);
         $mock->add('Foo', FooVeil::class);
 
-        $this->assertSame('hi', \Foo::bar());
+        $this->assertSame(\Foo::bar(), FooVeil::getVeilInstance()->bar());
 
         $this->assertSame($veil->registered(), $mock->registered());
     }
