@@ -39,7 +39,7 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit tests/"
+        "test": "vendor/bin/phpunit tests/ --coverage-clover clover.xml"
     },
     "extra": {
         "branch-alias": {
