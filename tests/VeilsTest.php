@@ -16,7 +16,10 @@ class VeilsTest extends TestCase
         Mockery::close();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \Veil
+     */
     public function it_can_get_a_list_of_empty_veils()
     {
         $mock = Mockery::mock(Veil::class);
@@ -26,7 +29,10 @@ class VeilsTest extends TestCase
         $this->assertSame($veil->all(), $mock->all());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \Veil
+     */
     public function it_can_get_a_list_of_all_veils()
     {
         $mock = Mockery::mock(Veil::class);
@@ -44,7 +50,10 @@ class VeilsTest extends TestCase
         $this->assertSame($veil->all(), $mock->all());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \Veil
+     */
     public function it_can_get_a_list_of_registered_veils()
     {
         $mock = Mockery::mock(Veil::class);
@@ -67,7 +76,10 @@ class VeilsTest extends TestCase
         $this->assertSame($veil->registered(), $mock->registered());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \Veil
+     */
     public function it_can_get_a_list_of_registered_veils_using_key_value_on_add_method()
     {
         $mock = Mockery::mock(Veil::class);

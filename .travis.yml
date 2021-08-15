@@ -1,15 +1,42 @@
 language: php
 
+arch: amd64
+os: linux
+dist: xenial
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
 php:
-    - 7.4
-    - 8.0
+  - 7.4
+  - 8.0
+  - nightly
+
+matrix:
+  allow_failures:
+  - php: nightly
+
+jobs:
+    fast_finish: true
+
+install:
+  - composer self-update --2
+  - composer install
 
 before_script:
-    - travis_retry composer self-update
-    - travis_retry composer install --no-interaction --prefer-source --dev
+  - travis_retry composer self-update
+  - travis_retry composer install --no-interaction --prefer-source --dev
 
 script:
-    - composer run-script test
+  - php -d 'xdebug.mode=coverage' vendor/bin/phpunit --configuration phpunit.xml
 
 after_success:
-    - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash)
+
+notifications:
+  email:
+    recipients:
+        - adrianmejias@gmail.com
+    on_success: always
+    on_failure: always
