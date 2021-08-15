@@ -4,9 +4,9 @@
 
 Autoloader for custom class instances.
 
-# Requirements
+# Installation
 
-TBD
+`composer require adrianmejias/veil`
 
 # Basic Usage
 
@@ -42,18 +42,15 @@ Hello, world!
 - [ ] Add GitHub Action for unit tests
 - [ ] Add requirements to README.md
 - [ ] Add API listing to README.md
-## Official Documentation
-
-TBD
 
 ## Contributing
 
-Thank you for considering contributing to Testbench! You can read the contribution guide [here](CONTRIBUTING.md).
+Thank you for considering contributing to Testbench! You can read the contribution guide [here](.github/CONTRIBUTING.md).
 
 ## Code of Conduct
 
-In order to ensure that the community is welcoming to all, please review and abide by the [Code of Conduct](CODE_OF_CONDUCT.md).
+In order to ensure that the community is welcoming to all, please review and abide by the [Code of Conduct](.github/CODE_OF_CONDUCT.md).
 
 ## License
 
-Testbench is open-sourced software licensed under the [MIT license](LICENSE).
+Testbench is open-sourced software licensed under the [MIT license](LICENSE.md).
