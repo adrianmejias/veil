@@ -32,6 +32,7 @@ class VeilsTest extends TestCase
     /**
      * @test
      * @covers \AdrianMejias\Veil\Veil
+     * @covers \AdrianMejias\Veil\VeilAbstract
      */
     public function it_can_get_a_list_of_all_veils()
     {
@@ -53,6 +54,7 @@ class VeilsTest extends TestCase
     /**
      * @test
      * @covers \AdrianMejias\Veil\Veil
+     * @covers \AdrianMejias\Veil\VeilAbstract
      */
     public function it_can_get_a_list_of_registered_veils()
     {
@@ -79,6 +81,7 @@ class VeilsTest extends TestCase
     /**
      * @test
      * @covers \AdrianMejias\Veil\Veil
+     * @covers \AdrianMejias\Veil\VeilAbstract
      */
     public function it_can_get_a_list_of_registered_veils_using_key_value_on_add_method()
     {
