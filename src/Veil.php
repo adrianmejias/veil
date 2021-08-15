@@ -27,7 +27,7 @@ class Veil
      *
      * @return array
      */
-    public function all()
+    public function all(): array
     {
         return $this->veils;
     }
@@ -37,7 +37,7 @@ class Veil
      *
      * @return array
      */
-    public function registered()
+    public function registered(): array
     {
         return $this->registered;
     }
@@ -49,14 +49,32 @@ class Veil
      * @param string|null $class Original class name for given $veils alias name.
      * @return void
      */
-    public function add($veils, $class = null)
+    public function add($veils, $class = null): void
     {
         if (empty($class) && is_array($veils)) {
             $this->veils = array_merge($this->veils, $veils);
+
+            foreach ($this->veils as $veil => $_class) {
+                if (class_exists($veil)) {
+                    $this->registered[$veil] = $this->veils[$veil];
+                }
+
+                if (interface_exists($veil)) {
+                    $this->registered[$veil] = $this->veils[$veil];
+                }
+            }
         }
 
         if (!empty($class) && is_string($class) && is_string($veils)) {
             $this->veils[$veils] = $class;
+
+            if (class_exists($veils)) {
+                $this->registered[$veils] = $this->veils[$veils];
+            }
+
+            if (interface_exists($veils)) {
+                $this->registered[$veils] = $this->veils[$veils];
+            }
         }
     }
 
@@ -67,7 +85,7 @@ class Veil
      * @return bool true on success or false on failure.
      * @throws TypeError
      */
-    public function register(bool $prepend = true)
+    public function register(bool $prepend = true): bool
     {
         return spl_autoload_register([$this, 'autoload'], true, $prepend);
     }
@@ -78,34 +96,30 @@ class Veil
      * @param string $alias Class alias to be autoloaded.
      * @return bool|null
      */
-    public function autoload(string $class)
+    public function autoload(string $class): ?bool
     {
         if (array_key_exists($class, $this->registered)) {
-            return null;
+            return false;
         }
 
         if (!array_key_exists($class, $this->veils)) {
-            return null;
+            return false;
         }
 
         if (class_exists($class, false)) {
-            return null;
+            return false;
         }
 
         if (interface_exists($class, false)) {
-            return null;
+            return false;
         }
 
         if (class_alias($this->veils[$class], $class, true)) {
-            if (!class_exists($class, false)) {
-                return null;
+            if (class_exists($class, false)) {
+                $this->registered[$class] = $this->veils[$class];
+
+                return true;
             }
-
-            $this->registered[$class] = $this->veils[$class];
-
-            return true;
         }
-
-        return null;
     }
 }
