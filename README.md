@@ -6,10 +6,13 @@ Autoloader for custom class instances.
 
 ## Installation
 
+This version supports PHP 8.0. You can install the package via composer:
+
 `composer require adrianmejias/veil`
 
-## Basic Usage
+## Usage
 
+### Example
 ```php
 <?php
 
@@ -19,20 +22,29 @@ use AdrianMejias\Veil\Veil;
 
 $veil = new Veil();
 $veil->register();
+
+// An example when setting up a flolder and composer psr-4
+// autoload is setup as: "Veils\\": "src/Veils/"
 $veil->add([
-    'Foo' => Veils\FooVeil::class,
+    'Foo' => Veils\FooVeil::class, // The alias name and abstract class to alias against.
 ]);
 // $veil->add('Foo', Veils\FooVeil::class);
-// composer autoload psr-4 -> "Veils\\": "src/Veils/",
 
+// An example if the bar method in the Foo class returned 'world'
 echo 'Hello, ' . \Foo::bar() . '!';
-// Foo->bar() -> return 'world'
+// use Foo;
+// ...
+// echo 'Hello, ' . Foo::bar() . '!';
 ```
 
 Expected Output:
 ```html
 Hello, world!
 ```
+
+## Testing
+
+`composer test`
 
 ## Todo
 
@@ -46,12 +58,16 @@ Hello, world!
 
 ## Contributing
 
-Thank you for considering contributing to Testbench! You can read the contribution guide [here](.github/CONTRIBUTING.md).
+Thank you for considering contributing to Veil! You can read the contribution guide [here](.github/CONTRIBUTING.md).
 
 ## Code of Conduct
 
 In order to ensure that the community is welcoming to all, please review and abide by the [Code of Conduct](.github/CODE_OF_CONDUCT.md).
 
+## Security Vulnerabilities
+
+Please see the [security file](SECURITY.md) for more information.
+
 ## License
 
-Testbench is open-sourced software licensed under the [MIT license](LICENSE.md).
+The MIT License (MIT). Please see the [license file](LICENSE.md) for more information.
