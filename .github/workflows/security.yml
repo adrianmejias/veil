@@ -20,5 +20,8 @@ jobs:
             path: ~/.symfony/cache
             key: db
 
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
       - name: The PHP Security Checker
         uses: symfonycorp/security-checker-action@v2
