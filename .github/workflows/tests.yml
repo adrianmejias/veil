@@ -20,6 +20,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Install PHP
       uses: shivammathur/setup-php@master
       with:
