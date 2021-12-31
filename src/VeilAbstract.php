@@ -6,20 +6,29 @@ namespace AdrianMejias\Veil;
 
 use AdrianMejias\Veil\Exceptions\NoAccessorFoundException;
 use AdrianMejias\Veil\Exceptions\NoInstanceFoundException;
+use AdrianMejias\Veil\Exceptions\NoMethodFoundException;
 
+/**
+ * Veil Abstract.
+ *
+ * @package Veil
+ * @category Support
+ */
 abstract class VeilAbstract
 {
     /**
      * Array of class instances.
      *
-     * @var array
+     * @var array|mixed[]
+     * @static
      */
-    private static $instances = [];
+    protected static array $instances = [];
 
     /**
      * Get veil accessor.
      *
-     * @return mixed|false
+     * @return mixed
+     * @static
      * @throws \AdrianMejias\Veil\Exceptions\NoAccessorFoundException
      */
     public static function getVeilAccessor()
@@ -30,7 +39,8 @@ abstract class VeilAbstract
     /**
      * Get veil instance.
      *
-     * @return mixed|false
+     * @return mixed
+     * @static
      * @throws \AdrianMejias\Veil\Exceptions\NoInstanceFoundException
      */
     public static function getVeilInstance()
@@ -41,7 +51,10 @@ abstract class VeilAbstract
     /**
      * Get or set instance of eil.
      *
-     * @return mixed|false
+     * @return mixed
+     * @static
+     * @throws \AdrianMejias\Veil\Exceptions\NoAccessorFoundException
+     * @throws \AdrianMejias\Veil\Exceptions\NoInstanceFoundException
      */
     public static function getInstance()
     {
@@ -54,13 +67,19 @@ abstract class VeilAbstract
     /**
      * Call a callback with an array of parameters.
      *
-     * @param mixed $method
+     * @param string $method
      * @param mixed $args
-     * @return mixed|false
+     * @return mixed
+     * @static
+     * @throws \AdrianMejias\Veil\Exceptions\NoMethodFoundException
      */
-    public static function __callStatic($method, $args)
+    public static function __callStatic(string $method, $args)
     {
         $instance = static::getInstance();
+
+        if (! method_exists($instance, $method)) {
+            throw new NoMethodFoundException();
+        }
 
         switch (count($args)) {
             case 0:
@@ -79,7 +98,9 @@ abstract class VeilAbstract
                     $args[3]
                 );
             default:
-                return call_user_func_array([$instance, $method], $args);
+                $callback = fn (...$args) => $instance->$method(...$args);
+
+                return call_user_func_array($callback, $args);
         }
     }
 }

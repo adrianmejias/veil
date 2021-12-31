@@ -17,8 +17,7 @@ class FooVeil extends VeilAbstract
     /** @inheritDoc */
     public static function getVeilInstance()
     {
-        return new class
-        {
+        return new class {
             /**
              * Say hi.
              *

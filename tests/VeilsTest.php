@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace AdrianMejias\Tests;
 
-use PHPUnit\Framework\TestCase;
-use AdrianMejias\Veil\Veil;
 use AdrianMejias\Tests\Veils\FooVeil;
+use AdrianMejias\Veil\Veil;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 
 class VeilsTest extends TestCase
 {
