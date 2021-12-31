@@ -1,6 +1,6 @@
 {
     "name": "adrianmejias/veil",
-    "description": "Autoloader for custom class instances.",
+    "description": "A simple class instance autoloader for PHP applications.",
     "keywords": [
         "php",
         "autoload",
@@ -12,6 +12,7 @@
     "homepage": "https://github.com/adrianmejias/veil",
     "support": {
         "issues": "https://github.com/adrianmejias/veil/issues",
+        "forum": "https://twitter.com/adrianmejias",
         "source": "https://github.com/adrianmejias/veil"
     },
     "authors": [
@@ -21,10 +22,15 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0"
+        "php": "^7.4|^8.0",
+        "ext-json": "*",
+        "ext-mbstring": "*"
     },
     "require-dev": {
         "mockery/mockery": "^1.4",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0",
         "phpunit/php-code-coverage": "^9.2",
         "phpunit/phpunit": "^9.5"
     },
@@ -39,7 +45,10 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit tests/ --coverage-clover clover.xml"
+        "analyse": "vendor/bin/phpstan analyse",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-clover clover.xml"
     },
     "extra": {
         "branch-alias": {
