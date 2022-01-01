@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace AdrianMejias\Veil;
 
-use AdrianMejias\Veil\Exceptions\AutoloadRegisterException;
-
 /**
  * Veil.
  *
@@ -49,15 +47,72 @@ class Veil
     }
 
     /**
+     * Register given array of veils as __autoload() implementation.
+     *
+     * @param bool $prepend If true, spl_autoload_register()
+     * will prepend the autoloader on the autoload stack
+     * instead of appending it.
+     * @return \AdrianMejias\Veil\Veil
+     * @throws \TypeError
+     */
+    public function register(bool $prepend = true): Veil
+    {
+        $callback = fn (string $class) => $this->autoload($class);
+
+        spl_autoload_register($callback, true, $prepend);
+
+        return $this;
+    }
+
+    /**
+     * Creates an alias for a class.
+     *
+     * @param string $class Class alias to be autoloaded.
+     * @return void
+     */
+    private function autoload(string $class): void
+    {
+        if (array_key_exists($class, $this->registered)) {
+            return;
+        }
+
+        if (! array_key_exists($class, $this->veils)) {
+            return;
+        }
+
+        if (class_exists($class, false)) {
+            return;
+        }
+
+        if (interface_exists($class, false)) {
+            return;
+        }
+
+        if (trait_exists($class, false)) {
+            return;
+        }
+
+        if (! class_alias(
+            $this->veils[$class],
+            $class,
+            true
+        )) {
+            return;
+        }
+
+        $this->registered[$class] = $this->veils[$class];
+    }
+
+    /**
      * Add an array of veils.
      *
      * @param array|mixed[]|string $veils Array of class
      * aliases. Alias if $class is given.
      * @param mixed $class Original class name for
      * given $veils alias name.
-     * @return void
+     * @return \AdrianMejias\Veil\Veil
      */
-    public function add($veils, $class = null): void
+    public function add($veils, $class = null): Veil
     {
         if (empty($class) && is_array($veils)) {
             $this->veils = array_merge($this->veils, $veils);
@@ -84,61 +139,7 @@ class Veil
                 $this->registered[$veils] = $this->veils[$veils];
             }
         }
-    }
 
-    /**
-     * Register given array of veils as __autoload() implementation.
-     *
-     * @param bool $prepend If true, spl_autoload_register()
-     * will prepend the autoloader on the autoload stack
-     * instead of appending it.
-     * @return \AdrianMejias\Veil\Veil
-     * @throws \TypeError
-     * @throws \AdrianMejias\Veil\Exceptions\AutoloadRegisterException
-     */
-    public function register(bool $prepend = true): Veil
-    {
-        $callback = fn (string $class) => $this->autoload($class);
-
-        if (spl_autoload_register($callback, true, $prepend)) {
-            return $this;
-        }
-
-        throw new AutoloadRegisterException();
-    }
-
-    /**
-     * Creates an alias for a class.
-     *
-     * @param string $class Class alias to be autoloaded.
-     * @return mixed
-     */
-    public function autoload(string $class)
-    {
-        if (array_key_exists($class, $this->registered)) {
-            return false;
-        }
-
-        if (! array_key_exists($class, $this->veils)) {
-            return false;
-        }
-
-        if (class_exists($class, false)) {
-            return false;
-        }
-
-        if (interface_exists($class, false)) {
-            return false;
-        }
-
-        if (class_alias(
-            $this->veils[$class],
-            $class,
-            true
-        )) {
-            $this->registered[$class] = $this->veils[$class];
-
-            return true;
-        }
+        return $this;
     }
 }

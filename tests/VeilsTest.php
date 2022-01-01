@@ -19,7 +19,9 @@ class VeilsTest extends TestCase
     {
         $veil = new Veil;
 
-        $this->assertSame($veil->all(), []);
+        $expected = [];
+        $actual = $veil->all();
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -32,7 +34,9 @@ class VeilsTest extends TestCase
         $veil = new Veil;
         $veil->add(['Foo' => FooVeil::class]);
 
-        $this->assertSame($veil->all(), ['Foo' => FooVeil::class]);
+        $expected = ['Foo' => FooVeil::class];
+        $actual = $veil->all();
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -42,12 +46,15 @@ class VeilsTest extends TestCase
      */
     public function it_can_get_a_list_of_registered_veils_as_array()
     {
-        $veil = (new Veil)->register();
-        $veil->add(['Foo' => FooVeil::class]);
-        $registered = $veil->registered();
+        $instance = new Veil;
 
-        $this->assertInstanceOf($veil::class, new Veil);
-        $this->assertSame($registered, ['Foo' => FooVeil::class]);
+        $veil = $instance->register()->add(['Foo' => FooVeil::class]);
+
+        $this->assertInstanceOf($veil::class, $instance);
+
+        $expected = ['Foo' => FooVeil::class];
+        $actual = $veil->registered();
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -57,12 +64,15 @@ class VeilsTest extends TestCase
      */
     public function it_can_get_a_list_of_registered_veils_as_key_value()
     {
-        $veil = (new Veil)->register();
-        $veil->add('Foo', FooVeil::class);
-        $registered = $veil->registered();
+        $instance = new Veil;
 
-        $this->assertInstanceOf($veil::class, new Veil);
-        $this->assertSame($registered, ['Foo' => FooVeil::class]);
+        $veil = $instance->register()->add('Foo', FooVeil::class);
+
+        $this->assertInstanceOf($veil::class, $instance);
+
+        $expected = ['Foo' => FooVeil::class];
+        $actual = $veil->registered();
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -74,7 +84,10 @@ class VeilsTest extends TestCase
     {
         (new Veil)->register()->add('Foo', FooVeil::class);
 
-        $this->assertSame(\Foo::bar(), FooVeil::getVeilInstance()->bar());
+        $expected = \Foo::bar();
+        $actual = FooVeil::getVeilInstance()->bar();
+
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -83,7 +96,7 @@ class VeilsTest extends TestCase
      * @covers \AdrianMejias\Veil\VeilAbstract
      * @covers \AdrianMejias\Veil\Exceptions\NoInstanceMethodFoundException
      */
-    public function it_can_throw_exception_for_method_not_found()
+    public function it_can_throw_exception_for_instance_method_not_found()
     {
         (new Veil)->register()->add('Foo', FooVeil::class);
 

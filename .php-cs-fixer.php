@@ -12,6 +12,7 @@ $finder = Symfony\Component\Finder\Finder::create()
 
 $rules = [
     '@PSR2' => true,
+    'php_unit_method_casing' => ['case' => 'snake_case'],
     'array_syntax' => ['syntax' => 'short'],
     'ordered_imports' => ['sort_algorithm' => 'alpha'],
     'no_unused_imports' => true,

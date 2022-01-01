@@ -5,22 +5,24 @@ declare(strict_types=1);
 namespace AdrianMejias\Tests;
 
 use AdrianMejias\Tests\Veils\FooVeil;
-use AdrianMejias\Tests\Veils\MyTestClass;
+use AdrianMejias\Tests\Veils\NoAccessorVeil;
+use AdrianMejias\Tests\Veils\NoInstanceVeil;
 use AdrianMejias\Veil\Exceptions\NoAccessorFoundException;
 use AdrianMejias\Veil\Exceptions\NoInstanceFoundException;
 use AdrianMejias\Veil\Exceptions\NoInstanceMethodFoundException;
 use AdrianMejias\Veil\Veil;
-use AdrianMejias\Veil\VeilAbstract;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
 class MockVeilsTest extends TestCase
 {
+    /** @inheritDoc */
     public function setUp(): void
     {
         Mockery::globalHelpers();
     }
 
+    /** @inheritDoc */
     public function tearDown(): void
     {
         Mockery::close();
@@ -32,6 +34,7 @@ class MockVeilsTest extends TestCase
      */
     public function it_can_get_a_list_of_empty_veils()
     {
+        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\AdrianMejias\Veil\Veil */
         $mock = mock(Veil::class);
         $mock->shouldReceive('all')->andReturn([]);
 
@@ -45,10 +48,11 @@ class MockVeilsTest extends TestCase
      */
     public function it_can_get_a_list_of_all_veils()
     {
+        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\AdrianMejias\Veil\Veil */
         $mock = mock(Veil::class);
         $mock->shouldReceive('add')->once()->with([
             'Foo' => FooVeil::class,
-        ]);
+        ])->andReturn(new Veil);
         $mock->shouldReceive('all')->once()->andReturn([
             'Foo' => FooVeil::class,
         ]);
@@ -64,11 +68,12 @@ class MockVeilsTest extends TestCase
      */
     public function it_can_get_a_list_of_registered_veils_as_array()
     {
+        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\AdrianMejias\Veil\Veil */
         $mock = mock(Veil::class);
         $mock->shouldReceive('register')->once()->andReturn(new Veil);
         $mock->shouldReceive('add')->once()->with([
             'Foo' => FooVeil::class,
-        ]);
+        ])->andReturn(new Veil);
         $mock->shouldReceive('registered')->once()->andReturn([
             'Foo' => FooVeil::class,
         ]);
@@ -85,9 +90,11 @@ class MockVeilsTest extends TestCase
      */
     public function it_can_get_a_list_of_registered_veils_as_key_value()
     {
+        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\AdrianMejias\Veil\Veil */
         $mock = mock(Veil::class);
         $mock->shouldReceive('register')->once()->andReturn(new Veil);
-        $mock->shouldReceive('add')->once()->with('Foo', FooVeil::class);
+        $mock->shouldReceive('add')->once()
+            ->with('Foo', FooVeil::class)->andReturn(new Veil);
         $mock->shouldReceive('registered')->once()->andReturn([
             'Foo' => FooVeil::class,
         ]);
@@ -105,26 +112,21 @@ class MockVeilsTest extends TestCase
      */
     public function it_can_throw_exception_for_accessor_not_found()
     {
-        $mockClass = new class extends VeilAbstract {
-            /** @inheritDoc */
-            public static function getVeilInstance()
-            {
-                return new MyTestClass;
-            }
-        };
-        $mock = Mockery::mock(Veil::class);
+        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\AdrianMejias\Veil\Veil */
+        $mock = mock(Veil::class);
         $mock->shouldReceive('register')->once()->andReturn(new Veil);
-        $mock->shouldReceive('add')->once()->with('MockFoo', $mockClass::class);
+        $mock->shouldReceive('add')->once()
+            ->with('NoAccessor', NoAccessorVeil::class)->andReturn(new Veil);
         $mock->shouldReceive('registered')->once()->andReturn([
-            'MockFoo' => $mockClass::class,
+            'NoAccessor' => NoAccessorVeil::class,
         ]);
 
         $mock->register();
-        $mock->add('MockFoo', $mockClass::class);
+        $mock->add('NoAccessor', NoAccessorVeil::class);
         $registered = $mock->registered();
 
         $this->expectException(NoAccessorFoundException::class);
-        $registered['MockFoo']::bar();
+        $registered['NoAccessor']::bar();
     }
 
     /**
@@ -135,26 +137,21 @@ class MockVeilsTest extends TestCase
      */
     public function it_can_throw_exception_for_instance_not_found()
     {
-        $mockClass = new class extends VeilAbstract {
-            /** @inheritDoc */
-            public static function getVeilAccessor()
-            {
-                return 'MockClass';
-            }
-        };
-        $mock = Mockery::mock(Veil::class);
+        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\AdrianMejias\Veil\Veil */
+        $mock = mock(Veil::class);
         $mock->shouldReceive('register')->once()->andReturn(new Veil);
-        $mock->shouldReceive('add')->once()->with('MockFoo', $mockClass::class);
+        $mock->shouldReceive('add')->once()
+            ->with('NoInstance', NoInstanceVeil::class)->andReturn(new Veil);
         $mock->shouldReceive('registered')->once()->andReturn([
-            'MockFoo' => $mockClass::class,
+            'NoInstance' => NoInstanceVeil::class,
         ]);
 
         $mock->register();
-        $mock->add('MockFoo', $mockClass::class);
+        $mock->add('NoInstance', NoInstanceVeil::class);
         $registered = $mock->registered();
 
         $this->expectException(NoInstanceFoundException::class);
-        $registered['MockFoo']::bar();
+        $registered['NoInstance']::bar();
     }
 
     /**
@@ -165,9 +162,11 @@ class MockVeilsTest extends TestCase
      */
     public function it_can_throw_exception_for_instance_method_not_found()
     {
-        $mock = Mockery::mock(Veil::class);
+        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\AdrianMejias\Veil\Veil */
+        $mock = mock(Veil::class);
         $mock->shouldReceive('register')->once()->andReturn(new Veil);
-        $mock->shouldReceive('add')->once()->with('Foo', FooVeil::class);
+        $mock->shouldReceive('add')->once()
+            ->with('Foo', FooVeil::class)->andReturn(new Veil);
         $mock->shouldReceive('registered')->once()->andReturn([
             'Foo' => FooVeil::class,
         ]);
