@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AdrianMejias\Veil;
 
-use TypeError;
+use AdrianMejias\Veil\Exceptions\AutoloadRegisterException;
 
 /**
  * Veil.
@@ -92,14 +92,19 @@ class Veil
      * @param bool $prepend If true, spl_autoload_register()
      * will prepend the autoloader on the autoload stack
      * instead of appending it.
-     * @return bool true on success or false on failure.
-     * @throws TypeError
+     * @return \AdrianMejias\Veil\Veil
+     * @throws \TypeError
+     * @throws \AdrianMejias\Veil\Exceptions\AutoloadRegisterException
      */
-    public function register(bool $prepend = true): bool
+    public function register(bool $prepend = true): Veil
     {
         $callback = fn (string $class) => $this->autoload($class);
 
-        return spl_autoload_register($callback, true, $prepend);
+        if (spl_autoload_register($callback, true, $prepend)) {
+            return $this;
+        }
+
+        throw new AutoloadRegisterException();
     }
 
     /**

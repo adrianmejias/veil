@@ -13,18 +13,20 @@ This version supports PHP 8.0. You can install the package via composer:
 ## Usage
 
 ### Example
+
 ```php
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 use AdrianMejias\Veil\Veil;
 
-$veil = new Veil();
-$veil->register();
+// Register the autoloader
+$veil = (new Veil)->register();
 
 // An example when setting up a flolder and composer psr-4
 // autoload is setup as: "Veils\\": "src/Veils/"
+// FooVeil class extends VeilAbstract with instance of loadable class
 $veil->add([
     'Foo' => Veils\FooVeil::class, // The alias name and abstract class to alias against.
 ]);
