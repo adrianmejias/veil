@@ -1,5 +1,9 @@
 # Release notes
 
+## v1.0.2 - 2022-01-01
+
+- Added coverage tests
+
 ## v1.0.1 - 2022-01-01
 
 - Update support and tests to PHP v8.0
