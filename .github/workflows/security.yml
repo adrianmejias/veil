@@ -1,4 +1,4 @@
-name: security
+name: PHP Security Checker
 
 on:
   push:
