@@ -125,6 +125,10 @@ class Veil
                 if (interface_exists($veil)) {
                     $this->registered[$veil] = $this->veils[$veil];
                 }
+
+                if (trait_exists($veil)) {
+                    $this->registered[$veil] = $this->veils[$veil];
+                }
             }
         }
 
@@ -136,6 +140,10 @@ class Veil
             }
 
             if (interface_exists($veils)) {
+                $this->registered[$veils] = $this->veils[$veils];
+            }
+
+            if (trait_exists($veils)) {
                 $this->registered[$veils] = $this->veils[$veils];
             }
         }
