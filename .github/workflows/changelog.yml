@@ -2,6 +2,7 @@ name: Update Changelog
 
 on:
   release:
+    branches: [ main ]
     types: [released]
 
 jobs:
