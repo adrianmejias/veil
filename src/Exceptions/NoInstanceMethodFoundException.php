@@ -7,12 +7,12 @@ namespace AdrianMejias\Veil\Exceptions;
 use Exception;
 
 /**
- * Veil no instance found exception.
+ * Veil no method found exception.
  *
  * @package Veil
  * @category Support
  */
-class NoInstanceFoundException extends Exception
+class NoInstanceMethodFoundException extends Exception
 {
     /**
      * String representation of the exception.
@@ -21,6 +21,6 @@ class NoInstanceFoundException extends Exception
      */
     public function __toString(): string
     {
-        return 'No instance found.';
+        return 'No instance method found.';
     }
 }

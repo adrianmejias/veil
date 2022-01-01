@@ -6,6 +6,12 @@ namespace AdrianMejias\Veil\Exceptions;
 
 use Exception;
 
+/**
+ * Veil no accessor found exception.
+ *
+ * @package Veil
+ * @category Support
+ */
 class NoAccessorFoundException extends Exception
 {
     /**

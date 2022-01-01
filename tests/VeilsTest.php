@@ -4,29 +4,22 @@ declare(strict_types=1);
 
 namespace AdrianMejias\Tests;
 
-use PHPUnit\Framework\TestCase;
-use AdrianMejias\Veil\Veil;
 use AdrianMejias\Tests\Veils\FooVeil;
-use Mockery;
+use AdrianMejias\Veil\Exceptions\NoInstanceMethodFoundException;
+use AdrianMejias\Veil\Veil;
+use PHPUnit\Framework\TestCase;
 
 class VeilsTest extends TestCase
 {
-    public function tearDown(): void
-    {
-        Mockery::close();
-    }
-
     /**
      * @test
      * @covers \AdrianMejias\Veil\Veil
      */
     public function it_can_get_a_list_of_empty_veils()
     {
-        $mock = Mockery::mock(Veil::class);
-        $mock->shouldReceive('all')->andReturn([]);
         $veil = new Veil;
 
-        $this->assertSame($veil->all(), $mock->all());
+        $this->assertSame($veil->all(), []);
     }
 
     /**
@@ -36,19 +29,10 @@ class VeilsTest extends TestCase
      */
     public function it_can_get_a_list_of_all_veils()
     {
-        $mock = Mockery::mock(Veil::class);
-        $mock->shouldReceive('add')->once()->with([
-            'Foo' => FooVeil::class,
-        ]);
-        $mock->shouldReceive('all')->once()->andReturn([
-            'Foo' => FooVeil::class,
-        ]);
         $veil = new Veil;
-
         $veil->add(['Foo' => FooVeil::class]);
-        $mock->add(['Foo' => FooVeil::class]);
 
-        $this->assertSame($veil->all(), $mock->all());
+        $this->assertSame($veil->all(), ['Foo' => FooVeil::class]);
     }
 
     /**
@@ -56,26 +40,14 @@ class VeilsTest extends TestCase
      * @covers \AdrianMejias\Veil\Veil
      * @covers \AdrianMejias\Veil\VeilAbstract
      */
-    public function it_can_get_a_list_of_registered_veils()
+    public function it_can_get_a_list_of_registered_veils_as_array()
     {
-        $mock = Mockery::mock(Veil::class);
-        $mock->shouldReceive('register')->once()->andReturn(true);
-        $mock->shouldReceive('add')->once()->with([
-            'Foo' => FooVeil::class,
-        ]);
-        $mock->shouldReceive('registered')->once()->andReturn([
-            'Foo' => FooVeil::class,
-        ]);
         $veil = new Veil;
-
-        $this->assertSame($veil->register(), $mock->register());
-
+        $this->assertTrue($veil->register());
         $veil->add(['Foo' => FooVeil::class]);
-        $mock->add(['Foo' => FooVeil::class]);
+        $registered = $veil->registered();
 
-        $this->assertSame(\Foo::bar(), FooVeil::getVeilInstance()->bar());
-
-        $this->assertSame($veil->registered(), $mock->registered());
+        $this->assertSame($registered, ['Foo' => FooVeil::class]);
     }
 
     /**
@@ -83,23 +55,43 @@ class VeilsTest extends TestCase
      * @covers \AdrianMejias\Veil\Veil
      * @covers \AdrianMejias\Veil\VeilAbstract
      */
-    public function it_can_get_a_list_of_registered_veils_using_key_value_on_add_method()
+    public function it_can_get_a_list_of_registered_veils_as_key_value()
     {
-        $mock = Mockery::mock(Veil::class);
-        $mock->shouldReceive('register')->once()->andReturn(true);
-        $mock->shouldReceive('add')->once()->with('Foo', FooVeil::class);
-        $mock->shouldReceive('registered')->once()->andReturn([
-            'Foo' => FooVeil::class,
-        ]);
         $veil = new Veil;
-
-        $this->assertSame($veil->register(), $mock->register());
-
+        $veil->register();
         $veil->add('Foo', FooVeil::class);
-        $mock->add('Foo', FooVeil::class);
+        $registered = $veil->registered();
+
+        $this->assertSame($registered, ['Foo' => FooVeil::class]);
+    }
+
+    /**
+     * @test
+     * @covers \AdrianMejias\Veil\Veil
+     * @covers \AdrianMejias\Veil\VeilAbstract
+     */
+    public function it_can_call_method()
+    {
+        $veil = new Veil;
+        $veil->register();
+        $veil->add('Foo', FooVeil::class);
 
         $this->assertSame(\Foo::bar(), FooVeil::getVeilInstance()->bar());
+    }
 
-        $this->assertSame($veil->registered(), $mock->registered());
+    /**
+     * @test
+     * @covers \AdrianMejias\Veil\Veil
+     * @covers \AdrianMejias\Veil\VeilAbstract
+     * @covers \AdrianMejias\Veil\Exceptions\NoInstanceMethodFoundException
+     */
+    public function it_can_throw_exception_for_method_not_found()
+    {
+        $veil = new Veil;
+        $veil->register();
+        $veil->add('Foo', FooVeil::class);
+
+        $this->expectException(NoInstanceMethodFoundException::class);
+        \Foo::noExist();
     }
 }

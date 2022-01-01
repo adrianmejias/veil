@@ -6,26 +6,32 @@ namespace AdrianMejias\Veil;
 
 use TypeError;
 
+/**
+ * Veil.
+ *
+ * @package Veil
+ * @category Support
+ */
 class Veil
 {
     /**
      * Array of class aliases.
      *
-     * @var array
+     * @var array|mixed[]
      */
-    private $veils = [];
+    private array $veils = [];
 
     /**
      * Array of loaded class aliases.
      *
-     * @var array
+     * @var array|mixed[]
      */
-    private $registered = [];
+    private array $registered = [];
 
     /**
      * Get a list of veils.
      *
-     * @return array
+     * @return array|mixed[]
      */
     public function all(): array
     {
@@ -35,7 +41,7 @@ class Veil
     /**
      * Get a list of registered veils.
      *
-     * @return array
+     * @return array|mixed[]
      */
     public function registered(): array
     {
@@ -45,8 +51,10 @@ class Veil
     /**
      * Add an array of veils.
      *
-     * @param array|string $veils Array of class aliases. Alias if $class is given.
-     * @param string|null $class Original class name for given $veils alias name.
+     * @param array|mixed[]|string $veils Array of class
+     * aliases. Alias if $class is given.
+     * @param mixed $class Original class name for
+     * given $veils alias name.
      * @return void
      */
     public function add($veils, $class = null): void
@@ -65,7 +73,7 @@ class Veil
             }
         }
 
-        if (!empty($class) && is_string($class) && is_string($veils)) {
+        if (! empty($class) && is_string($class) && is_string($veils)) {
             $this->veils[$veils] = $class;
 
             if (class_exists($veils)) {
@@ -81,28 +89,32 @@ class Veil
     /**
      * Register given array of veils as __autoload() implementation.
      *
-     * @param array $prepend If true, spl_autoload_register() will prepend the autoloader on the autoload stack instead of appending it.
+     * @param bool $prepend If true, spl_autoload_register()
+     * will prepend the autoloader on the autoload stack
+     * instead of appending it.
      * @return bool true on success or false on failure.
      * @throws TypeError
      */
     public function register(bool $prepend = true): bool
     {
-        return spl_autoload_register([$this, 'autoload'], true, $prepend);
+        $callback = fn (string $class) => $this->autoload($class);
+
+        return spl_autoload_register($callback, true, $prepend);
     }
 
     /**
      * Creates an alias for a class.
      *
-     * @param string $alias Class alias to be autoloaded.
-     * @return bool|null
+     * @param string $class Class alias to be autoloaded.
+     * @return mixed
      */
-    public function autoload(string $class): ?bool
+    public function autoload(string $class)
     {
         if (array_key_exists($class, $this->registered)) {
             return false;
         }
 
-        if (!array_key_exists($class, $this->veils)) {
+        if (! array_key_exists($class, $this->veils)) {
             return false;
         }
 
@@ -114,12 +126,14 @@ class Veil
             return false;
         }
 
-        if (class_alias($this->veils[$class], $class, true)) {
-            if (class_exists($class, false)) {
-                $this->registered[$class] = $this->veils[$class];
+        if (class_alias(
+            $this->veils[$class],
+            $class,
+            true
+        )) {
+            $this->registered[$class] = $this->veils[$class];
 
-                return true;
-            }
+            return true;
         }
     }
 }
