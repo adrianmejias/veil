@@ -65,7 +65,7 @@ class MockVeilsTest extends TestCase
     public function it_can_get_a_list_of_registered_veils_as_array()
     {
         $mock = mock(Veil::class);
-        $mock->shouldReceive('register')->once()->andReturn(true);
+        $mock->shouldReceive('register')->once()->andReturn(new Veil);
         $mock->shouldReceive('add')->once()->with([
             'Foo' => FooVeil::class,
         ]);
@@ -86,7 +86,7 @@ class MockVeilsTest extends TestCase
     public function it_can_get_a_list_of_registered_veils_as_key_value()
     {
         $mock = mock(Veil::class);
-        $mock->shouldReceive('register')->once()->andReturn(true);
+        $mock->shouldReceive('register')->once()->andReturn(new Veil);
         $mock->shouldReceive('add')->once()->with('Foo', FooVeil::class);
         $mock->shouldReceive('registered')->once()->andReturn([
             'Foo' => FooVeil::class,
@@ -113,7 +113,7 @@ class MockVeilsTest extends TestCase
             }
         };
         $mock = Mockery::mock(Veil::class);
-        $mock->shouldReceive('register')->once()->andReturn(true);
+        $mock->shouldReceive('register')->once()->andReturn(new Veil);
         $mock->shouldReceive('add')->once()->with('MockFoo', $mockClass::class);
         $mock->shouldReceive('registered')->once()->andReturn([
             'MockFoo' => $mockClass::class,
@@ -143,7 +143,7 @@ class MockVeilsTest extends TestCase
             }
         };
         $mock = Mockery::mock(Veil::class);
-        $mock->shouldReceive('register')->once()->andReturn(true);
+        $mock->shouldReceive('register')->once()->andReturn(new Veil);
         $mock->shouldReceive('add')->once()->with('MockFoo', $mockClass::class);
         $mock->shouldReceive('registered')->once()->andReturn([
             'MockFoo' => $mockClass::class,
@@ -166,7 +166,7 @@ class MockVeilsTest extends TestCase
     public function it_can_throw_exception_for_instance_method_not_found()
     {
         $mock = Mockery::mock(Veil::class);
-        $mock->shouldReceive('register')->once()->andReturn(true);
+        $mock->shouldReceive('register')->once()->andReturn(new Veil);
         $mock->shouldReceive('add')->once()->with('Foo', FooVeil::class);
         $mock->shouldReceive('registered')->once()->andReturn([
             'Foo' => FooVeil::class,
