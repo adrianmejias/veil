@@ -14,7 +14,7 @@ use AdrianMejias\Veil\VeilAbstract;
  * @method static string getVeilAccessor() Get veil accessor.
  * @method static \AdrianMejias\Tests\Veils\MyTestClass getVeilInstance()
  * Get veil instance.
- * @method static string bar() Say hi.
+ * @method static string bar(mixed ...$args) Say hi.
  */
 class FooVeil extends VeilAbstract
 {
