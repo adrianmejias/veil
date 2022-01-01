@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: main
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PERSONAL_TOKEN }}
 
       - name: Update Changelog
         uses: stefanzweifel/changelog-updater-action@v1
@@ -21,16 +21,11 @@ jobs:
           latest-version: ${{ github.event.release.name }}
           release-notes: ${{ github.event.release.body }}
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
       - name: Commit updated CHANGELOG
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Update CHANGELOG
           file_pattern: CHANGELOG.md
-          branch: ${{ steps.extract_branch.outputs.branch }}
+          branch: main
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
