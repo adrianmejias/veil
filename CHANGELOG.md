@@ -1,5 +1,11 @@
 # Release notes
 
+## v1.0.1 - 2022-01-01
+
+- Update support and tests to PHP v8.0
+- Added workflows for PHPStan and PHP CS Fixer
+- Minor updates
+
 ## [v1.0.1 (2021-12-31)](https://github.com/adrianmejias/veil/compare/v1.0.1...v1.0.1)
 
 - Update support and tests to PHP v8.0
