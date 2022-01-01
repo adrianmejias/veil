@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace AdrianMejias\Tests;
 
 use AdrianMejias\Tests\Veils\FooVeil;
+use AdrianMejias\Veil\Exceptions\NoAccessorFoundException;
+use AdrianMejias\Veil\Exceptions\NoInstanceFoundException;
 use AdrianMejias\Veil\Exceptions\NoInstanceMethodFoundException;
 use AdrianMejias\Veil\Veil;
 use PHPUnit\Framework\TestCase;
@@ -177,5 +179,38 @@ class VeilsTest extends TestCase
 
         $this->expectException(NoInstanceMethodFoundException::class);
         \Foo::noExist();
+    }
+
+    /**
+     * @test
+     * @covers \AdrianMejias\Veil\Exceptions\NoAccessorFoundException
+     */
+    public function it_can_throw_no_accessor_found_exception()
+    {
+        $this->expectException(NoAccessorFoundException::class);
+
+        throw new NoAccessorFoundException();
+    }
+
+    /**
+     * @test
+     * @covers \AdrianMejias\Veil\Exceptions\NoInstanceFoundException
+     */
+    public function it_can_throw_no_instance_found_exception()
+    {
+        $this->expectException(NoInstanceFoundException::class);
+
+        throw new NoInstanceFoundException();
+    }
+
+    /**
+     * @test
+     * @covers \AdrianMejias\Veil\Exceptions\NoInstanceMethodFoundException
+     */
+    public function it_can_throw_no_instance_method_found_exception()
+    {
+        $this->expectException(NoInstanceMethodFoundException::class);
+
+        throw new NoInstanceMethodFoundException();
     }
 }
