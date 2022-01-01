@@ -6,7 +6,7 @@ namespace AdrianMejias\Veil;
 
 use AdrianMejias\Veil\Exceptions\NoAccessorFoundException;
 use AdrianMejias\Veil\Exceptions\NoInstanceFoundException;
-use AdrianMejias\Veil\Exceptions\NoMethodFoundException;
+use AdrianMejias\Veil\Exceptions\NoInstanceMethodFoundException;
 
 /**
  * Veil Abstract.
@@ -71,14 +71,14 @@ abstract class VeilAbstract
      * @param mixed $args
      * @return mixed
      * @static
-     * @throws \AdrianMejias\Veil\Exceptions\NoMethodFoundException
+     * @throws \AdrianMejias\Veil\Exceptions\NoInstanceMethodFoundException
      */
     public static function __callStatic(string $method, $args)
     {
         $instance = static::getInstance();
 
         if (! method_exists($instance, $method)) {
-            throw new NoMethodFoundException();
+            throw new NoInstanceMethodFoundException();
         }
 
         switch (count($args)) {

@@ -17,16 +17,6 @@ class FooVeil extends VeilAbstract
     /** @inheritDoc */
     public static function getVeilInstance()
     {
-        return new class {
-            /**
-             * Say hi.
-             *
-             * @return string
-             */
-            public function bar(): string
-            {
-                return 'hi';
-            }
-        };
+        return new MyTestClass;
     }
 }

@@ -6,6 +6,12 @@ namespace AdrianMejias\Veil\Exceptions;
 
 use Exception;
 
+/**
+ * Veil no instance found exception.
+ *
+ * @package Veil
+ * @category Support
+ */
 class NoInstanceFoundException extends Exception
 {
     /**
